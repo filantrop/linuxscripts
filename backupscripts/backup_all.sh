@@ -1,13 +1,15 @@
 #! /bin/bash
 
-# Declare array with rsyncpaths
+# Declare array with rsyncpaths, or just include a file with data
 #------------------------------------
-#['user ip source']="ssh-port destination"
+declare -A FLS
+#FLS['user ip source']="port destination"
 
-declare -A C
-C['root 1.2.3.4 /sourcedirectory']="22 /NOT.IN.USE"
-#C['o1 192.168.1.30 /data/disk/o1']="22 /home/o1"
-#C['o1 192.168.1.30 /data/disk/o1']="22 /home/o1"
+declare -A SQL
+#SQL['user ip']="port destination"
+
+. backup_conf.sh
+
 
 #-----------------------------------
 
@@ -18,46 +20,68 @@ RSYNC_COMMAND="$DIR/rsync_backup.sh"
 MYSQL_COMMAND="$DIR/mysql_backup.sh"
 BACKUP_DIR=$($REALPATH $DIR/../backups)
 NOW=$(date +"%Y-%m-%d_%H%M")
+DATE=`date "+%Y-%m-%dT%H:%M:%S"`
 
 echo $BACKUP_DIR
 echo $REALPATH
 echo $DIR
 echo $RSYNC_COMMAND
 
+# Functions
 
+function RUN_RSYNC {
+    for key in "${!FLS[@]}"
+        do
+            KEY_ARR=($key)
+                VALUE=(${FLS[$key]})
 
-#declare -A C
+                USER=${KEY_ARR[0]}
+        HOST=${KEY_ARR[1]}
+        SOURCE=${KEY_ARR[2]}
+        PORT=${VALUE[0]}
+        DESTINATION=${VALUE[1]}
 
-#C['o1 192.168.1.30 /data/disk/o1']="22 /home/o1"
-
-for key in "${!C[@]}"
-do
-	KEY_ARR=($key)
-	VALUE=(${C[$key]})
-	
-	USER=${KEY_ARR[0]}
-	HOST=${KEY_ARR[1]}
-	SOURCE=${KEY_ARR[2]}
-	PORT=${VALUE[0]}
-	DESTINATION=${VALUE[1]}
-	
-	COMBINED_SOURCE="$USER@$HOST:$SOURCE"
-	BACKUP_PATH=$BACKUP_DIR/${HOST}${SOURCE}
-        #LOGFILE=$BACKUP_DIR/log/${NOW}.log
-	cat <<OUT
-user:   $USER 
-host:   $HOST 
-source: $SOURCE 
-port:   $PORT 
-destination: $DESTINATION 
-backup_path: $BACKUP_PATH
-combined_source: $COMBINED_SOURCE
+        COMBINED_SOURCE="$USER@$HOST:$SOURCE"
+        BACKUP_PATH=$BACKUP_DIR/${HOST}${SOURCE}
+#LOGFILE=$BACKUP_DIR/log/${NOW}.log
+cat <<OUT
+            user:   $USER 
+            host:   $HOST 
+            source: $SOURCE 
+            port:   $PORT 
+            destination: $DESTINATION 
+            backup_path: $BACKUP_PATH
+            combined_source: $COMBINED_SOURCE
 
 OUT
-	$RSYNC_COMMAND $PORT $COMBINED_SOURCE $BACKUP_PATH
+        $RSYNC_COMMAND $PORT $COMBINED_SOURCE $BACKUP_PATH $DATE
 
-done
+        done
+        wait
+        echo "All rsync commands has finnished"
+}
+
+function RUN_MYSQLDUMP {
+# Iterate all mysqdump lines
+    for key in "${!SQL[@]}"
+        do
+            KEY_ARR=($key)
+                VALUE=(${SQL[$key]})
+
+                USER=${KEY_ARR[0]}
+        HOST=${KEY_ARR[1]}
+        PORT=${VALUE[0]}
+        DESTINATION=${VALUE[1]}
+
 
 # Run mysql backups
-$MYSQL_COMMAND 22 '/home/o1/backups/192.168.1.30/sql' root 192.168.1.30
+        $MYSQL_COMMAND $PORT $DESTINATION/$HOST/sql $USER $HOST $DATE
+        done
+
+        echo "Databasebackup has finnished"
+}
+
+RUN_RSYNC
+
+RUN_MYSQLDUMP
 

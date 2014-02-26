@@ -6,15 +6,17 @@ SOURCE_PORT=$1
 DESTINATION=$2
 USER=$3
 HOST=$4
-
+date=$5
 # Check if all arguments is present
-if [ "$#" -ne 4 ]; then
+if [ "$#" -le 3 ]; then
     echo "Illegal number of paramaters in mysql_backup.sh"
     exit 1
 fi
 
 # Create date and paths
-date=`date "+%Y-%m-%dT%H:%M:%S"`
+if [[ -z "$date" ]];then
+   date=`date "+%Y-%m-%dT%H:%M:%S"`
+fi
 NOW=$(date +"%Y-%m-%d_%H%M")
 LOGFILE=$DESTINATION/${NOW}.log
 DESTINATION_BACKUP_PATH=$DESTINATION/b-$date
@@ -37,22 +39,25 @@ DATABASES=$BR
 
 #DATABASES=eval $BR
 
+$MKDIR -p $DESTINATION_BACKUP_PATH
+
 i=0
 while read -r DB_NAME
 do
    if [ $i != 0 ]; then
      echo $DB_NAME
 
-     $MKDIR -p $DESTINATION_BACKUP_PATH
      #MYSQL_RUN="/usr/bin/ssh $USER@$HOST -p $SOURCE_PORT mysqldump -u root --lock-tables=false ${DB_NAME}|gzip>$DESTINATION_BACKUP_PATH/$DB_NAME.sql.gz"
      MYSQL_RUN="/usr/bin/ssh $USER@$HOST -p $SOURCE_PORT mysqldump -u root --lock-tables=false ${DB_NAME}>$DESTINATION_BACKUP_PATH/$DB_NAME.sql &"
      echo $MYSQL_RUN
      eval $MYSQL_RUN
-     #echo "pid: $PID";
    fi
    i=$i+1
 
 done<<<"$DATABASES"
+wait
+
+#echo "Databasebackup finnished"
 
 #echo "">$LOGFILE
 #eval $BR 2>> $LOGFILE

@@ -1,20 +1,22 @@
 #! /bin/bash
-set -x
+#set -x
 
 # Arguments
 SOURCE_PORT=$1
 SOURCE=$2
 DESTINATION=$3
-
+date=$4
 
 # Check if all arguments is present
-if [ "$#" -ne 3 ]; then
+if [ "$#" -le 2 ]; then
     echo "Illegal number of paramaters"
     exit 1
 fi
 
 # Create date and paths
-date=`date "+%Y-%m-%dT%H:%M:%S"`
+if [[ -z "$date" ]];then
+   date=`date "+%Y-%m-%dT%H:%M:%S"`
+fi
 NOW=$(date +"%Y-%m-%d_%H%M")
 LOGFILE=$DESTINATION/${NOW}.log
 DESTINATION_BACKUP_PATH=$DESTINATION/b-$date
