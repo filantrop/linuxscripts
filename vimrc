@@ -6,3 +6,4 @@ map <F7> mzgg=G`z<CR>
 syntax on
 filetype on
 au BufNewFile,BufRead *.install set filetype=php
+au BufNewFile,BufRead *.info set filetype=php
