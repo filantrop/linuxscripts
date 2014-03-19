@@ -7,3 +7,4 @@ syntax on
 filetype on
 au BufNewFile,BufRead *.install set filetype=php
 au BufNewFile,BufRead *.info set filetype=php
+defscrollback 10000

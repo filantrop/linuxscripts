@@ -1,0 +1,6 @@
+defscrollback 10000
+startup_message off
+vert_split
+screen
+focus
+screen -t mc 0 mc
