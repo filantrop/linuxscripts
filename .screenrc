@@ -1,6 +1,19 @@
 defscrollback 10000
 startup_message off
-vert_split
-screen
+split -v
+screen -t editor bash
+focus right
+split
+screen -t bash1  bash
+focus down
+screen -t bash2 bash
+split
+focus down
+screen -t bash3 bash
+#screen
 focus
-screen -t mc 0 mc
+bind j focus left
+bind k focus down
+bind i focus up
+bind l focus right
+#screen -t mc 0 mc
