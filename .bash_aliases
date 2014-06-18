@@ -36,5 +36,35 @@ alias cd....="cd ../../.."
 alias cd.....="cd ../../../.."
 alias cd......="cd ../../../../.."
 
+if [ -x /usr/bin/dircolors ]; then
+  test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+  alias ll="ls -l --group-directories-first --color=auto"
+  alias ls='ls -hF --color=auto'   # add colors for filetype recognition
+  alias la='ls -Al --color=auto'   # show hidden files
+  alias lx='ls -lXB --color=auto'  # sort by extension
+  alias lk='ls -lSr --color=auto'  # sort by size, biggest last
+  alias lc='ls -ltcr --color=auto' # sort by and show change time, most recent last
+  alias lu='ls -ltur --color=auto' # sort by and show access time, most recent last
+  alias lt='ls -ltr --color=auto'  # sort by date, most recent last
+  alias lr='ls -lR --color=auto'   # recursive ls
+  alias dir='dir --color=auto'     # add colors
+  alias vdir='vdir --color=auto'   # add colors
+  alias grep='grep --color=auto'   # add colors
+  alias fgrep='fgrep --color=auto' # add colors
+  alias egrep='egrep --color=auto' # add colors
+else
+  alias ll="ls -l --group-directories-first"
+  alias ls='ls -hF'   # filetype recognition
+  alias la='ls -Al'   # show hidden files
+  alias lx='ls -lXB'  # sort by extension
+  alias lk='ls -lSr'  # sort by size, biggest last
+  alias lc='ls -ltcr' # sort by and show change time, most recent last
+  alias lu='ls -ltur' # sort by and show access time, most recent last
+  alias lt='ls -ltr'  # sort by date, most recent last
+  alias lr='ls -lR'   # recursive ls
+fi
+
+alias df='df -kTh'
+alias wget='wget --no-check-certificate'
 
 
