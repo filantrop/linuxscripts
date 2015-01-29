@@ -15,7 +15,13 @@ let g:vdebug_options = {
             \ 'break_on_open': 1
             \}
 let g:vdebug_keymap = {
-            \ 'step_into': '<F8>'
+            \ 'step_into': '<F8>',
+            \ 'step_out': '<F7>',
+            \ 'deatach': '<F2>'
+            \}
+let g:vdebug_features = {
+            \ 'max_depth':1,
+            \ 'max_children': 500
             \}
 
 if &diff
