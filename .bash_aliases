@@ -40,7 +40,7 @@ if [ -x /usr/bin/dircolors ]; then
   test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
   alias ll="ls -l --group-directories-first --color=auto"
   alias ls='ls -hF --color=auto'   # add colors for filetype recognition
-  alias la='ls -Al --color=auto'   # show hidden files
+  alias la='ls -Altr --color=auto'   # sort by date, most recent last,show hidden files
   alias lx='ls -lXB --color=auto'  # sort by extension
   alias lk='ls -lSr --color=auto'  # sort by size, biggest last
   alias lc='ls -ltcr --color=auto' # sort by and show change time, most recent last
