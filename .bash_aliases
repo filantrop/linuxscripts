@@ -55,7 +55,7 @@ if [ -x /usr/bin/dircolors ]; then
 else
   alias ll="ls -l --group-directories-first"
   alias ls='ls -hF'   # filetype recognition
-  alias la='ls -Al'   # show hidden files
+  alias la='ls -Altr'   # sort by date, most recent last, show hidden files
   alias lx='ls -lXB'  # sort by extension
   alias lk='ls -lSr'  # sort by size, biggest last
   alias lc='ls -ltcr' # sort by and show change time, most recent last
@@ -67,4 +67,16 @@ fi
 alias df='df -kTh'
 alias wget='wget --no-check-certificate'
 
+
+# Add functions
+function stitle()
+{
+   if [ $# -gt 0 ] ;then
+     echo -e "\033k$*\033\\"
+   fi
+}
+function pt()
+{
+    stitle $(whoami) - $(pwd)
+}
 

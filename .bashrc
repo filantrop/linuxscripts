@@ -65,6 +65,7 @@ alias wget='wget --no-check-certificate'
 
 function xtitle()
 {
+  
   case "$TERM" in
     xterm*|rxvt*)
     echo -n -e "\033]0;$*\007" ;;
@@ -72,7 +73,6 @@ function xtitle()
     ;;
   esac
 }
-
 _L_HOST=`uname -n`
 alias top='xtitle $_L_HOST System Monitor && top'
 alias htop='xtitle $_L_HOST System Monitor && htop'
