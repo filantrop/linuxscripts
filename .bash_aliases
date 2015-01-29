@@ -77,6 +77,6 @@ function stitle()
 }
 function pt()
 {
-    stitle $(whoami) - $(pwd)
+    stitle $(whoami)@$(hostname) $(pwd)
 }
 
