@@ -1,0 +1,11 @@
+--- rsync.core.copy.inc	2015-02-09 12:25:34.034915566 +0100
++++ rsync.core.inc	2015-02-09 12:32:24.622907058 +0100
+@@ -135,7 +135,7 @@
+     unset($additional_options['include-vcs']);
+   }
+ 
+-  $mode = '-akz';
++  $mode = '-az';// The original k in -akz  makes rsync resolve symbolic links, and that is something we can't do because they are owned by root
+   // Process --include-paths and --exclude-paths options the same way
+   foreach (array('include', 'exclude') as $include_exclude) {
+     // Get the option --include-paths or --exclude-paths and explode to an array of paths
