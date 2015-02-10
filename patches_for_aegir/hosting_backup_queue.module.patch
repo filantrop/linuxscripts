@@ -1,0 +1,14 @@
+diff --git a/hosting_backup_queue.module b/hosting_backup_queue.module
+index ddac8ee..d35195a 100644
+--- a/hosting_backup_queue.module
++++ b/hosting_backup_queue.module
+@@ -81,7 +81,8 @@ function hosting_backup_queue_queue($count) {
+   $sites = _hosting_backup_queue_get_outstanding_backups($count);
+   foreach ($sites as $site_id) {
+     if ($task = _hosting_backup_queue_get_backup_task($site_id)) {
+-      drush_backend_fork('hosting-task', array($task->nid));
++      //commented out 11/19/14 reutbp89, method no longer exists in drush. Aegir management handles processing queued tasks
++      //drush_backend_fork('hosting-task', array($task->nid));
+     }
+   }
+ }
