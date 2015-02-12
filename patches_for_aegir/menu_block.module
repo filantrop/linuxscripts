@@ -1,0 +1,18 @@
+diff --git a/menu_block.module b/menu_block.module
+index c5edc8d..8611fbf 100644
+--- a/menu_block.module
++++ b/menu_block.module
+@@ -372,6 +372,13 @@ function menu_tree_block_data(array &$config) {
+   if ($config['level'] > 1 || $config['parent_mlid']) {
+     if ($config['parent_mlid']) {
+       $parent_item = menu_link_load($config['parent_mlid']);
++      if (!$parent_item) {
++        watchdog('menu_block', "Menu block @delta is set to use parent menu link @plid but the menu link was not loadable or does not exist.", array(
++          '@delta' => $config['delta'],
++          '@plid' => $config['parent_mlid'],
++        ), WATCHDOG_ERROR);
++        $parent_item = NULL;
++      }
+       menu_tree_prune_tree($tree, $config['level'], $parent_item);
+     }
+     else {
