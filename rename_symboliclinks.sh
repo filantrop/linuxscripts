@@ -11,6 +11,12 @@ SOURCEDIR=$1
 FIND=$2
 REPLACE=$3
 
+if [ "$#" -ne 3 ];then echo 'Call this script with e.g. /data/disk/o1/distro/001/ebiz-1.3.1 "drupal\-7\.28\.1" "drupal-7.32.1"';exit 0;fi
+
+if [ -z "$SOURCEDIR" ];then echo "SOURCEDIR is not given";exit 0;fi
+if [ ! -d "$SOURCEDIR" ];then echo "$SOURCEDIR does not exist";exit 0;fi
+if [ -z "$FIND" ];then echo "FIND is not given";exit 0;fi
+if [ -z "$REPLACE" ];then echo "REPLACE is not given";exit 0;fi
 
 # Code
 cd $SOURCEDIR
@@ -27,5 +33,6 @@ for SOURCEFILE in $FILES; do
         ln -s $RESULT ${SOURCEFILE}_newfile_torename
         rm $SOURCEFILE
         mv ${SOURCEFILE}_newfile_torename $SOURCEFILE
+        chown -h o1:users $SOURCEFILE
     fi        
 done
