@@ -1,4 +1,6 @@
 " set smartindent
+" execute pathogen#infect()
+runtime vimrc
 set tabstop=4
 set shiftwidth=4
 set expandtab

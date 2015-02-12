@@ -14,6 +14,6 @@ ln -s $SCRIPT_DIR/.bash_aliases $CALLING_DIR/.bash_aliases
 ln -s $SCRIPT_DIR/.vimrc $CALLING_DIR/.vimrc
 ln -s $SCRIPT_DIR/.screenrc $CALLING_DIR/.screenrc
 ln -s $SCRIPT_DIR/.bashrc $CALLING_DIR/.bashrc
-ln -s /data/script/linuxscripts $CALLING_DIR/linuxscripts
+ln -s /data/scripts/linuxscripts $CALLING_DIR/linuxscripts
 
 source $CALLING_DIR/.bashrc
