@@ -13,7 +13,7 @@ au BufNewFile,BufRead *.info set filetype=php
 " defscrollback 10000
 let g:vdebug_options = {
             \ 'server': '0.0.0.0',
-            \ 'break_on_open': 1
+            \ 'break_on_open': 0
             \}
 let g:vdebug_keymap = {
             \ 'step_into': '<F8>',
